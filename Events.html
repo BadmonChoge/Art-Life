@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="description" content="Art-Life Privacy Policy">
+  <title>Events | Art-Life</title>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="css/styles.css" as="style">
+  <link rel="preload" href="js/main.js" as="script">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Courier+New&display=swap" as="style">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Courier+New&display=swap">
+
+  <!-- JavaScript -->
+  <script src="js/performance.js" defer></script>
+  <script src="js/utils/imageLoader.js" defer></script>
+  <script src="js/utils/adaptiveImages.js" defer></script>
+  <script src="js/utils/predictiveprefetch.js" defer></script>
+  <script src="js/animations/scrollManager.js" defer></script>
+  <script src="js/animations/animations.js" defer></script>
+  <script src="js/components/formValidator.js" defer></script>
+  <script src="js/components/carousels.js" defer></script>
+  <script src="js/components/components.js" defer></script>
+  <script src="js/navigation.js" defer></script>
+  <script src="js/animation.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/initialization.js" defer></script>
+  <script src="js/hamburger-fix.js" defer></script>
+
+  <style> 
+      .events-subheading {
+          color: var(--text-muted);
+          max-width: 600px;
+          margin: 0 auto;
+          font-size: clamp(1rem, 2.5vw, 1.2rem);
+          line-height: 1.6;
+          padding: 0 var(--spacing-sm);
+      }
+
+      /* Large Desktop (1200px and up) */
+      @media (min-width: 1200px) {
+          .events-subheading {
+              max-width: 700px;
+              font-size: 1.2rem;
+          }
+      }
+
+      /* Desktop (1024px to 1199px) */
+      @media (min-width: 1024px) and (max-width: 1199px) {
+          .events-subheading {
+              max-width: 650px;
+              font-size: 1.1rem;
+          }
+      }
+
+      /* Tablet (768px to 1023px) */
+      @media (min-width: 768px) and (max-width: 1023px) {
+          .events-subheading {
+              max-width: 580px;
+              font-size: 1.05rem;
+              padding: 0 var(--spacing-xs);
+          }
+      }
+
+      /* Mobile (480px to 767px) */
+      @media (min-width: 480px) and (max-width: 767px) {
+          .events-subheading {
+              max-width: 90%;
+              font-size: 1rem;
+              padding: 0 var(--spacing-xs);
+          }
+      }
+
+      /* Small Mobile (0px to 479px) */
+      @media (max-width: 479px) {
+          .events-subheading {
+              max-width: 95%;
+              font-size: 0.95rem;
+              line-height: 1.5;
+              padding: 0 var(--spacing-xs);
+          }
+      }
+      
+      .calendar-filters {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: var(--spacing-sm);
+          margin-bottom: var(--spacing-xl);
+          padding: var(--spacing-sm);
+          background: rgba(42, 42, 45, 0.7);
+          border-radius: var(--border-radius-lg);
+          backdrop-filter: blur(10px);
+      }
+      
+      .filter-btn {
+          padding: var(--spacing-xs) var(--spacing-sm);
+          background: transparent;
+          color: var(--text-muted);
+          border: 2px solid transparent;
+          border-radius: var(--border-radius);
+          font-family: var(--font-accent);
+          font-weight: 600;
+          cursor: pointer;
+          transition: all var(--transition-fast);
+      }
+      
+      .filter-btn:hover {
+          color: var(--secondary-dark);
+          border-color: var(--secondary);
+          background: rgba(218, 165, 32, 0.1);
+      }
+
+      .filter-btn.active {
+          color: var(--primary);
+          border-color: var(--primary);
+          background: rgba(218, 165, 32, 0.1);
+      }
+              
+      .events-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: var(--spacing-md);
+          margin-bottom: var(--spacing-xl);
+      }
+      
+      .event-card {
+          background: rgba(42, 42, 45, 0.8);
+          border-radius: var(--border-radius-lg);
+          overflow: hidden;
+          transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+      }
+      
+      .event-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .event-image {
+          height: 200px;
+          overflow: hidden;
+      }
+      
+      .event-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform var(--transition-slow);
+      }
+      
+      .event-card:hover .event-image img {
+          transform: scale(1.05);
+      }
+      
+      .event-content {
+          padding: var(--spacing-md);
+      }
+      
+      .event-date {
+          color: var(--primary);
+          font-family: var(--font-accent);
+          font-size: 0.9rem;
+          margin-bottom: var(--spacing-xs);
+      }
+      
+      .event-title {
+          font-size: 1.3rem;
+          margin-bottom: var(--spacing-xs);
+          color: var(--light);
+      }
+      
+      .event-description {
+          color: var(--text-light);
+          margin-bottom: var(--spacing-sm);
+          font-size: 0.95rem;
+      }
+      
+      .event-meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: var(--spacing-sm);
+      }
+      
+      .event-type {
+          padding: 0.2rem 0.6rem;
+          border-radius: var(--border-radius);
+          font-size: 0.8rem;
+          font-weight: bold;
+      }
+      
+      .event-type.exhibition {
+          background-color: var(--secondary);
+          color: var(--dark);
+      }
+      
+      .event-type.workshop {
+          background-color: var(--primary);
+          color: var(--dark);
+      }
+      
+      .event-type.performance {
+          background-color: #9C27B0;
+          color: white;
+      }
+      
+      .event-cta {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          background: var(--primary);
+          color: var(--dark);
+          border-radius: var(--border-radius);
+          font-weight: bold;
+          text-decoration: none;
+          transition: background-color var(--transition-fast);
+      }
+      
+      .event-cta:hover {
+          background-color: var(--secondary-dark);
+      }
+      
+      .calendar-cta {
+          text-align: center;
+          padding: var(--spacing-xl);
+          background: rgba(42, 42, 45, 0.8);
+          border-radius: var(--border-radius-lg);
+          backdrop-filter: blur(10px);
+      }
+      
+      .calendar-cta h2 {
+          font-size: 1.8rem;
+          margin-bottom: var(--spacing-sm);
+          color: var(--primary-light);
+      }
+      
+      .calendar-cta p {
+          margin-bottom: var(--spacing-md);
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+      }
+      
+      .cta-buttons {
+          display: flex;
+          gap: var(--spacing-md);
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+      
+      .btn {
+          display: inline-block;
+          padding: var(--spacing-xs) var(--spacing-sm);
+          background: var(--primary);
+          color: var(--dark);
+          border: none;
+          border-radius: var(--border-radius);
+          font-weight: bold;
+          cursor: pointer;
+          transition: all var(--transition-fast);
+          text-decoration: none;
+      }
+      
+      .btn:hover {
+          background-color: var(--secondary-dark);
+          transform: translateY(-2px);
+      }
+      
+      .btn-outline {
+          background: transparent;
+          color: var(--secondary);
+          border: 2px solid var(--secondary);
+      }
+      
+      .btn-outline:hover {
+          background: var(--secondary-dark);
+          color: var(--dark);
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          .events-grid {
+              grid-template-columns: 1fr;
+          }
+          
+          .calendar-filters {
+              flex-direction: column;
+              align-items: center;
+          }
+          
+          .filter-btn {
+              width: 100%;
+              text-align: center;
+          }
+          
+          .cta-buttons {
+              flex-direction: column;
+              align-items: center;
+          }
+          
+          .btn {
+              width: 100%;
+              text-align: center;
+          }
+      }
+  </style>
+</head>
+
+<body class="subpage">
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="search-overlay" aria-hidden="true">
+    <div class="search-box">
+      <form role="search">
+        <label for="search-input" class="sr-only">Search Art-Life</label>
+        <input type="text" id="search-input" placeholder="Search..." />
+        <button type="button" class="close-search" aria-label="Close search">✕</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="header">
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <!-- Search Icon - LEFT SIDE -->
+      <button class="mobile-search-icon" id="mobile-search-icon" aria-label="Open search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path d="M10 2a8 8 0 105.293 14.293l5.707 5.707 1.414-1.414-5.707-5.707A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <!-- Logo - CENTER -->
+      <div class="subpage-logo-container mobile-nav-logo">
+        <a href="Index.html" class="subpage-logo-link" aria-label="Art-Life Home">
+          <span class="word art">Art-</span>
+          <span class="word life">Life</span>
+        </a>
+      </div>
+
+        <!-- Placeholder for right side balance -->
+      <div class="mobile-header-placeholder"></div>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+
+    <!-- Full Screen Navigation Overlay -->
+    <div id="nav-overlay" class="fullscreen-overlay" aria-hidden="true">
+      <div class="overlay-content">
+        
+        <nav class="fullscreen-nav">
+          <div class="nav-main-item" data-bg-color="about">
+            <button class="nav-toggle" data-target="about-submenu">About</button>
+            <div class="nav-submenu" id="about-submenu">
+              <a href="About.html">Get to Know Us</a>
+              <a href="OurJourney.html">Our Journey</a>
+              <a href="People.html">People</a>
+              <a href="Contact.html">Contact Us</a>
+              <a href="FAQ.html">FAQ</a>
+            </div>
+          </div>
+
+          <div class="nav-main-item" data-bg-color="what-we-do">
+            <button class="nav-toggle" data-target="what-we-do-submenu">What We Do</button>
+            <div class="nav-submenu" id="what-we-do-submenu">
+              <a href="WhatWeDo.html">Defining Us</a>
+              <a href="ResearchAdvocacy.html">Research & Advocacy</a>
+            </div>
+          </div>
+
+          <div class="nav-main-item" data-bg-color="community">
+            <button class="nav-toggle" data-target="community-submenu">Community</button>
+            <div class="nav-submenu" id="community-submenu">
+              <a href="Community.html">Participation</a>
+              <a href="JoinAProgram.html">Support Us</a>
+            </div>
+          </div>
+
+          <div class="nav-main-item" data-bg-color="projects">
+            <button class="nav-toggle" data-target="projects-submenu">Projects</button>
+            <div class="nav-submenu" id="projects-submenu">
+              <a href="Projects.html">Legacy Projects</a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Social media icons at bottom -->
+        <div class="overlay-social">
+          <a href="https://www.instagram.com/art_life_group_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="https://x.com/Art_Life_Group" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1227">
+              <path d="M714.299 536.809 1181.38 0H1073.9L664.906 470.61 337.154 0H0L489.932 710.652 0 1227h107.477l433.206-488.444L862.846 1227H1200L714.299 536.809Zm-152.289 171.713-50.266-73.648L163.503 90.75h127.736l293.225 429.721 50.266 73.648 372.225 545.813H879.954L562.01 708.522Z"/>
+            </svg>
+          </a>
+          <a href="https://ke.linkedin.com/company/art-life-group" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.6v2.2h.1c.5-.9 1.8-2.2 3.7-2.2 4 0 4.7 2.6 4.7 6v9.9h-4v-8.7c0-2.1-.1-4.7-2.9-4.7-2.9 0-3.4 2.3-3.4 4.6v8.8h-4V8z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <aside class="sidebar">
+      <!-- Logo at the top of the sidebar -->
+      <div class="sidebar-logo">
+        <a href="Index.html" class="sidebar-logo-link" aria-label="Art-Life Home">
+          <span class="word art">Art-</span>
+          <span class="word life">Life</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+      <a href="About.html" class="nav-link">About</a>
+      <a href="WhatWeDo.html" class="nav-link">What we do</a>
+      <a href="Community.html" class="nav-link">Community</a>
+      <a href="Projects.html" class="nav-link">Projects</a>
+      </nav>
+    </aside>
+  
+    <!-- Search Icon - RIGHT SIDE -->
+    <div class="subpage-search-container" id="search-icon-container">
+      <button class="subpage-search-icon" id="search-icon" aria-label="Open search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10 2a8 8 0 105.293 14.293l5.707 5.707 1.414-1.414-5.707-5.707A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+    <div class="content-wrapper">
+        <main class="scroll-content">
+            <article>
+            <h1 class="main-heading">Events Calendar</h1>
+            <p class="events-subheading">Discover upcoming exhibitions, workshops, and gatherings hosted by Art-Life</p>
+
+            <div class="calendar-filters">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="exhibition">Exhibitions</button>
+                <button class="filter-btn" data-filter="workshop">Workshops</button>
+                <button class="filter-btn" data-filter="performance">Performances</button>
+                <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+            </div>
+                    
+            <div class="events-grid">
+                <!-- Event 1 -->
+                <div class="event-card" data-category="exhibition upcoming">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1563089145-599997674d42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Urban Expressions Exhibition">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">October 15-30, 2023 • 10AM-6PM</div>
+                        <h3 class="event-title">Urban Expressions Exhibition</h3>
+                        <p class="event-description">A showcase of street art and urban photography from Nairobi's vibrant neighborhoods.</p>
+                        <div class="event-meta">
+                            <span class="event-type exhibition">Exhibition</span>
+                            <a href="#" class="event-cta">Register</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="event-card" data-category="workshop upcoming">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1549056572-75914d6d7e1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Digital Art Workshop">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">October 21, 2023 • 2PM-5PM</div>
+                        <h3 class="event-title">Digital Art Workshop</h3>
+                        <p class="event-description">Learn digital painting techniques with professional artists. All skill levels welcome.</p>
+                        <div class="event-meta">
+                            <span class="event-type workshop">Workshop</span>
+                            <a href="#" class="event-cta">Register</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="event-card" data-category="performance">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1501281667305-0d4ebdb4f5c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Live Art Performance">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">November 5, 2023 • 7PM-9PM</div>
+                        <h3 class="event-title">Live Art Performance</h3>
+                        <p class="event-description">Experience the creative process as artists create works live accompanied by musical performances.</p>
+                        <div class="event-meta">
+                            <span class="event-type performance">Performance</span>
+                            <a href="#" class="event-cta">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendar-cta">
+                <h2>Host Your Event With Us</h2>
+                <p>Have an idea for an exhibition, workshop, or artistic gathering? We provide space and support for community-driven art events.</p>
+                <div class="cta-buttons">
+                    <a href="Contact.html" class="btn">Propose an Event</a>
+                    <a href="Community.html" class="btn btn-outline">Join Our Community</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <!-- Footer Section -->
+  <footer class="site-footer reveal">
+    <div class="footer-content">
+      <div class="footer-group">
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="https://www.instagram.com/art_life_group_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="https://x.com/Art_Life_Group" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1227" width="32" height="32" fill="white">
+                <path d="M714.299 536.809 1181.38 0H1073.9L664.906 470.61 337.154 0H0L489.932 710.652 0 1227h107.477l433.206-488.444L862.846 1227H1200L714.299 536.809Zm-152.289 171.713-50.266-73.648L163.503 90.75h127.736l293.225 429.721 50.266 73.648 372.225 545.813H879.954L562.01 708.522Z"/>
+              </svg>
+            </a>
+            <a href="https://ke.linkedin.com/company/art-life-group" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.6v2.2h.1c.5-.9 1.8-2.2 3.7-2.2 4 0 4.7 2.6 4.7 6v9.9h-4v-8.7c0-2.1-.1-4.7-2.9-4.7-2.9 0-3.4 2.3-3.4 4.6v8.8h-4V8z"/>
+              </svg>
+            </a>
+          </div>
+        </div>    
+
+        <div class="footer-section">
+          <h3>Legal</h3>
+          <a href="Privacy.html">Privacy Policy</a>
+          <a href="Terms.html">Terms of Service</a>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; <span id="current-year"></span> Art-Life. All rights reserved.</p>
+      </div>
+
+      <div class="self-promo">
+        <p>
+          If this site concept, design & development resonates with you, <a href="mailto:kibiwott.studio@proton.me">drop me a line</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

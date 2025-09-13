@@ -1,0 +1,30 @@
+/* css/accessibility.css */
+:root {
+  --a11y-focus: 3px solid #44B78B;
+}
+
+/* Focus states */
+a:focus, button:focus, input:focus {
+  outline: var(--a11y-focus);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  body {
+    background: #000 !important;
+    color: #FFF !important;
+  }
+  
+  .btn {
+    border: 2px solid currentColor !important;
+  }
+}
