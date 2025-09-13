@@ -156,4 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initPeopleCarousel();
   }  
 
+    // Initialize FAQ accordion if it exists on the page
+  if (document.querySelector('.faq-question')) {
+    initFAQAccordion();
+  }
+  
+  // Initialize other components if they exist
+  if (document.querySelector('.accordion-header')) {
+    initAccordions();
+  }
+  
+  if (document.querySelector('.filter-btn')) {
+    initFilters();
+  }
+
 });
